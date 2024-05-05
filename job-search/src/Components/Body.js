@@ -10,8 +10,8 @@ export default function Body(){
     // console.log(data)
     const[role,setRole]=useState("");
     const[experience,setExperience]=useState("");
-    const[employees,setEmployees]=useState("");
-    const[jobtype,setJobtype]=useState("");
+    const[TechStack,setTechstack]=useState("");
+    const[location,setLocation]=useState(" ")
     const[salary,setSalary]=useState("");
     const[companyName,setCompanyname]=useState("");
     const [jobs, setJobs] = useState([]);
@@ -55,14 +55,15 @@ console.log(jobs)
     const handleRole=(e)=>{
         setRole(e.target.value);
     }
+    const handleLocation=(e)=>{
+        setLocation(e.target.value)
+    }
     const handleExperience=(e)=>{
         setExperience(e.target.value);
     }
-    const handleEmployees=(e)=>{
-        setEmployees(e.target.value);
-    }
-    const handleJobType=(e)=>{
-        setJobtype(e.target.value);
+    
+    const handleTechStack=(e)=>{
+        setTechstack(e.target.value);
     }
     const handleSalary=(e)=>{
         setSalary(e.target.value);
@@ -73,44 +74,74 @@ console.log(jobs)
     return(
         <div className="container-fluid">
             <div className="m-1 p-1 text-dark bg-white fs-1 fw-bold">
+            
                 <form>
-                    {jobs.map((info=>{return(
-                        <></>
-                    )}))}
+                    
                     <div className="d-flex flex-row">
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3 " onClick={handleRole}>
-                    <option className="form-option" value={role}>Roles</option>
+                <select className="form-select p-3 text-black " onClick={handleRole}>
+                <option className="form-option" value="">Select Role</option>
+
+                    {[...new Set(jobs.map((info)=>info.jobRole))].map((roles,index)=>(
+                                                                        <option className="form-option text-black" value={role}>{roles}</option>
+
+                    ))}
+
+                    
                    
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3" onClick={handleEmployees}>
-                    <option className="form-option" value={employees}>Number Of Employees</option>
-                   
+                <select className="form-select p-3" onClick={handleLocation}>
+                    <option className="form-option" value={location}>Select Location</option>
+                   {/* filter for location and work type implemented in one select form */}
+                    {[...new Set(jobs.map((info)=>info.location))].map((locations,index)=>(
+                                                                        <option className="form-option text-black" value={location}>{locations}</option>
+
+                    ))}
+
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
                 <select className="form-select p-3" onClick={handleExperience}>
-                    <option className="form-option" value={experience}>Experience</option>
+                    <option className="form-option" value={experience}>Select Experience</option>
+                    {[...new Set(jobs.map((info)=>info.minExp))].map((exp,index)=>(
+                                                                        <option className="form-option text-black" value={experience}>{exp}</option>
+
+                    ))}
+
                    
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3" onClick={handleJobType}>
-                    <option className="form-option" value={jobtype}>Remote</option>
-                   
+                <select className="form-select p-3" onClick={handleTechStack}>
+                    <option className="form-option" value={TechStack}>Select Working Tech Stack</option>
+                    {/* no tech stack specified in upi,so assumed tech stack as job role result in upi */}
+                    {[...new Set(jobs.map((info)=>info.jobRole))].map((roless,index)=>(
+                                                                        <option className="form-option text-black" value={TechStack}>{roless}</option>
+
+                    ))}
+
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
                 <select className="form-select p-3"onClick={handleSalary}>
                     <option className="form-option" value={salary}>Minimum Base Pay Salary</option>
-                   
+                    {[...new Set(jobs.map((info)=>info.minJdSalary))].map((salarys,index)=>(
+                                                                        <option className="form-option text-black" value={salary}>{salarys}</option>
+
+                    ))}
+
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
                 <select className="form-select p-3" onClick={handleCompanyName}>
                     <option className="form-option" value={companyName}>Search Company Name</option>
+                    {[...new Set(jobs.map((info)=>info.companyName))].map((name,index)=>(
+                                                                        <option className="form-option text-black" value={companyName}>{name}</option>
+
+                    ))}
+
                    
                 </select>
                 </div>
@@ -118,11 +149,12 @@ console.log(jobs)
                 </form>
             </div>
             <div>
-                <div className="d">
+                <div className="container-fluid d-flex flex-wrap">
+                    
                     {jobs.map((job ,index)=>{
                         return(
-                            <div className="card w-50  fs-1 border border-grey rounded m-3 p-1 d-flex flex-column" key={index}>
-<div className="card-header fs-5 text-start">
+                            <div className="card w-25  fs-1 border border-grey rounded m-3 p-1"  key={index}>
+<div className="card-header fs-5 pb-0 text-start">
     <img src={job.logoUrl} alt="img" className="w-100 h-25 p-1 rounded"/>
     <span>Job-Title:{job.jobRole}</span>
     <br/>
@@ -131,8 +163,9 @@ console.log(jobs)
     <span>Location:{job.location}</span>
     <br/>
 </div>
-<div className="card-body fs-5 text-start">
+<div className="card-body  fs-5 text-start flex-body ">
     <p className="description">Job-Description:{job.jobDetailsFromCompany}</p>
+    {/* text is scrollable .this effect is done using css */}
     <br/>
     <div>Experience-Required: 
     <br/>
