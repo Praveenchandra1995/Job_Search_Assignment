@@ -12,11 +12,9 @@ const requestOptions = {
  headers: myHeaders,
  body
 };
-
 fetch("https://api.weekday.technology/adhoc/getSampleJdJSON", requestOptions)
- .then((response) => response.text())
+ .then((response) => response.json())
  .then((result) => console.log(result))
  .catch((error) => console.error(error));
 
  
-console.log(requestOptions);
