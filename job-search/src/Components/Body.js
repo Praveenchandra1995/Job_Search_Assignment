@@ -2,12 +2,12 @@ import React, { useState } from "react";
 
 export default function Body(){
 
-    const data=fetch("https://api.weekday.technology/adhoc/getSampleJdJSON")
-    .then(res=>res.json)
-    .then(info=>{
-        console.log(info)
-    })
-    console.log(data)
+    // const data=fetch("https://api.weekday.technology/adhoc/getSampleJdJSON")
+    // .then(res=>res.json())
+    // .then(info=>{
+    //     console.log(info)
+    // })
+    // console.log(data)
     const[role,setRole]=useState("");
     const[experience,setExperience]=useState("");
     const[employees,setEmployees]=useState("");
