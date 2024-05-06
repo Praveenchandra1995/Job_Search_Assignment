@@ -1,7 +1,10 @@
 import React, { useState ,useEffect} from "react";
-
+import { useDispatch ,useSelector} from "react-redux";
 export default function Body(){
+    const dispatch=useDispatch();
+    const applications = useSelector(state => state.Applications);
 
+console.log(applications)
     // const data=fetch("https://api.weekday.technology/adhoc/getSampleJdJSON")
     // .then(res=>res.json())
     // .then(info=>{
@@ -50,6 +53,23 @@ useEffect(() => {
     fetchData();
 }, []);
 console.log(jobs)
+
+// action handling in reducer
+debugger;
+const HandleApplication=(event,info)=>{
+
+    event.preventDefault();
+    const ApplicationInfo={
+      role,
+      location,
+      experience,
+      salary,
+      companyNames,
+      TechStack,
+      info
+    }
+    dispatch({type:"Job-application",payload:ApplicationInfo})
+}
     
 // option state  handling
     const handleRole=(e)=>{
@@ -200,7 +220,7 @@ console.log(jobs)
 </div>
 
 <div className="card-footer fs-5 p-2 ">
-    <button className="btn btn-success w-100 text-center text-white fw-bold mb-1">Easy Apply</button>
+    <button className="btn btn-success w-100 text-center text-white fw-bold mb-1" onClick={(e)=>HandleApplication(e,job)}>Easy Apply</button>
     
 
 
