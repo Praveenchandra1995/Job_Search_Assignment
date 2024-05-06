@@ -13,7 +13,7 @@ export default function Body(){
     const[TechStack,setTechstack]=useState("");
     const[location,setLocation]=useState(" ")
     const[salary,setSalary]=useState("");
-    const[companyName,setCompanyname]=useState("");
+    const[companyNames,setCompanyname]=useState("");
     const [jobs, setJobs] = useState([]);
 useEffect(() => {
     const fetchData = async () => {
@@ -81,13 +81,13 @@ console.log(jobs)
                     
                     <div className="d-flex flex-row">
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3 text-black " onChange={handleRole}>
+                <select className="form-select p-3 text-black " onChange={handleRole} value={role}>
                 <option className="form-option" value="">Select Role</option>
 
                     {[...new Set(jobs.map((info)=>info.jobRole))].map((roleOption,index)=>(
                 
                 
-                                                                        <option className="form-option text-black" value={role}>{roleOption}</option>
+                                                                        <option className="form-option text-black" >{roleOption}</option>
 
                     ))}
 
@@ -96,21 +96,21 @@ console.log(jobs)
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3" onChange={handleLocation}>
-                    <option className="form-option" value={location}>Select Location</option>
+                <select className="form-select p-3" onChange={handleLocation} value={location}>
+                    <option className="form-option">Select Location</option>
                    {/* filter for location and work type implemented in one select form */}
-                    {[...new Set(jobs.map((info)=>info.location))].map((locations,index)=>(
-                                                                        <option className="form-option text-black" value={location}>{locations}</option>
+                    {[...new Set(jobs.map((info)=>info.location))].map((locationplace,index)=>(
+                                                                        <option className="form-option text-black" >{locationplace}</option>
 
                     ))}
 
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3" onChange={handleExperience}>
-                    <option className="form-option" value={experience}>Select Experience</option>
+                <select className="form-select p-3" onChange={handleExperience} value={experience}>
+                    <option className="form-option" >Select Experience</option>
                     {[...new Set(jobs.map((info)=>info.minExp))].map((exp,index)=>(
-                                                                        <option className="form-option text-black" value={experience}>{exp}</option>
+                                                                        <option className="form-option text-black">{exp}</option>
 
                     ))}
 
@@ -118,31 +118,31 @@ console.log(jobs)
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3" onChange={handleTechStack}>
-                    <option className="form-option" value={TechStack}>Select Working Tech Stack</option>
+                <select className="form-select p-3" onChange={handleTechStack} value={TechStack}>
+                    <option className="form-option">Select Working Tech Stack</option>
                     {/* no tech stack specified in upi,so assumed tech stack as job role result in upi */}
                     {[...new Set(jobs.map((info)=>info.jobRole))].map((roless,index)=>(
-                                                                        <option className="form-option text-black" value={TechStack}>{roless}</option>
+                                                                        <option className="form-option text-black" >{roless}</option>
 
                     ))}
 
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3"onChange={handleSalary}>
-                    <option className="form-option" value={salary}>Minimum Base Pay Salary</option>
+                <select className="form-select p-3"onChange={handleSalary} value={salary}>
+                    <option className="form-option" >Minimum Base Pay Salary</option>
                     {[...new Set(jobs.map((info)=>info.minJdSalary))].map((salarys,index)=>(
-                                                                        <option className="form-option text-black" value={salary}>{salarys}</option>
+                                                                        <option className="form-option text-black">{salarys} Lakhs</option>
 
                     ))}
 
                 </select>
                 </div>
                 <div className="w-100 h-25 text-secondary fs-1 border border-secondary-subtle rounded m-1">
-                <select className="form-select p-3" onChange={handleCompanyName}>
-                    <option className="form-option" value={companyName}>Search Company Name</option>
+                <select className="form-select p-3" onChange={handleCompanyName} value={companyNames}>
+                    <option className="form-option">Search Company Name</option>
                     {[...new Set(jobs.map((info)=>info.companyName))].map((name,index)=>(
-                                                                        <option className="form-option text-black" value={companyName}>{name}</option>
+                                                                        <option className="form-option text-black">{name}</option>
 
                     ))}
 
@@ -157,33 +157,48 @@ console.log(jobs)
                  
                     {
                         
-                    jobs.filter((info=>role===""||info.jobRole===role)).map((job,index)=>{
-                        debugger;
+                    jobs.filter(info=>(role===""||info.jobRole===role)&&(companyNames===""||info.companyName===companyNames)&&(TechStack===""||info.jobRole===TechStack)&&(experience===""||parseInt(info.minExp)>=parseInt(experience))&&(salary===""||parseInt(info.minJdSalary)>=parseInt(salary))&&(location===""||info.location===location)).map((job,index)=>{
+//min salary filter is appplied ,if info.jdSalary is equal or greter than salary state in select minimum salary state option.
+//experience filter is appplied ,if info.minExp is equal or greter than experience state in select experience state option.
+//company filter is appplied ,if info.companyname is equal or greter than companynamestate state in select companyName state option.
+//company jobRole is appplied ,if info.jobRole is equal or greter than companynamestate state in select companyName state option.
+// company location and work mode is filtered based on location.
+                        //techstack assumed as job role because there is no tech stack mention in api 
 
                         return(
                             <div className="card w-25  fs-1 border border-grey rounded m-3 p-1"  key={index}>
 <div className="card-header fs-5 pb-0 text-start">
     <img src={job.logoUrl} alt="img" className="w-100 h-25 p-1 rounded"/>
-    <span>Job-Title:{job.jobRole}</span>
+    <span><span className="fw-bold fs-6">Job-Title:</span>{job.jobRole}</span>
     <br/>
-    <span>Company-Name:{job.companyName}</span>
+    <span><span className="fw-bold fs-6">Company-Name:</span>{job.companyName}</span>
     <br/>
-    <span>Location:{job.location}</span>
+    <span><span className="fw-bold fs-6">Location:</span>{job.location}</span>
     <br/>
 </div>
 <div className="card-body  fs-5 text-start flex-body ">
-    <p className="description">Job-Description:{job.jobDetailsFromCompany}</p>
+    <p className="description"><span className="fw-bold fs-6">Job-Description:</span>{job.jobDetailsFromCompany}</p>
     {/* text is scrollable .this effect is done using css */}
     <br/>
-    <div>Experience-Required: 
+    
+    <div><span className="fw-bold fs-6">Experience-Required: </span>
     <br/>
-        <span>Min-Exp:{job.minExp}Years</span>
+        <span><span className="fw-bold fs-6">Min-Exp:</span>{job.minExp}Years</span>
         <br/>
-        <span>Max-Exp:{job.maxExp}Years</span>
+        <span><span className="fw-bold fs-6">Max-Exp:</span>{job.maxExp}Years</span>
         <br/>
         </div>
+        <div>Salary-Range: 
+    <br/>
+        <span><span className="fw-bold fs-6">Min-Salary:</span>{job.minJdSalary} Lakhs</span>
+        <br/>
+        <span>Max-Salary:{job.maxJdSalary} Lakhs</span>
+        <br/>
+        </div>
+        
 
 </div>
+
 <div className="card-footer fs-5 p-2 ">
     <button className="btn btn-success w-100 text-center text-white fw-bold mb-1">Easy Apply</button>
     
