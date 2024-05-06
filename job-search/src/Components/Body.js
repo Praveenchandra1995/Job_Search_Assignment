@@ -2,6 +2,7 @@ import React, { useState ,useEffect} from "react";
 import { useDispatch ,useSelector} from "react-redux";
 export default function Body(){
     const dispatch=useDispatch();
+    // saved state through redux  is stored in  applications,we can get data from it display data in according to your needs
     const applications = useSelector(state => state.Applications);
 
 console.log(applications)
